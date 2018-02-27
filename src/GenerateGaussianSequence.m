@@ -1,14 +1,16 @@
-function watermark_sequence = GenerateGaussianSequence(n)
+function watermark_sequence = GenerateGaussianSequence(n, seed)
 % Generate normally distributed random numbers as a sequence
 % Take their sign() to map them to {-1, 1}
 
 % Parameters:
 % (1) n: # of bits, if not specified n = 1000
+% (2) seed
 
 if (nargin == 0)
     n = 1000;
 end
 
+rng(seed)
 watermark_sequence = sign(randn(1, n));
 
 for i = 1 : n

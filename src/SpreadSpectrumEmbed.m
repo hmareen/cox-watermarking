@@ -1,13 +1,12 @@
-function SpreadSpectrumEmbed(origfile, markedfile, wmfile, n, alpha)
+function SpreadSpectrumEmbed(origfile, markedfile, wmfile, n, seed, alpha)
 % Embed watermark into an image according to spread spectrum watermarking algorithm
 
 % Parameters:
 % (1) origfile          : filename of cover image - e.g. 'fruits.bmp'
 % (2) markedfile        : filename of output image - e.g. 'fruits_w.bmp'
-% (3) wmfile            : random sequence file
+% (3) wmfile            : random sequence output file
 % (4) n                 : # of bits representing the watermark - e.g. 1000
 % (5) alpha             : the strength of the watermark - e.g. 5
-
 
 % Preprocessing - read original image
 rgb_image = imread(origfile);
@@ -29,7 +28,7 @@ dct_vector = reshape(dct_image, 1, vector_size);
 [sorted_dct_vector index] = sort(dct_vector, 'descend');
 
 % Generate watermarked sequence
-watermark_seq = GenerateGaussianSequence(n);
+watermark_seq = GenerateGaussianSequence(n, seed);
 
 % Embed watermark seqeunce to original dct_vector
 for i = 1 : n
@@ -62,7 +61,7 @@ if result == 1
 end
 
 % Save watermark sequence in a file
-dlmwrite(wmfile, watermark_seq);
+dlmwrite(wmfile, watermark_seq, ',');
 
 % Save watermarked image in RGB mode
 watermarked_rgb = ycbcr2rgb(new_ycbcr_image);
